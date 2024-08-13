@@ -116,8 +116,9 @@ def responder_mensagem():
 					session["i_servico"] = 3
 			elif session["i_servico"] == 3:
 				session["ss_data"]["SS_DESCR"] = msg
+				response = validar_ss(session["ss_data"]["MAQ_COD"], session["ss_data"]["TAG"], msg,)
 				resp.message(
-						f"{validar_ss(session["ss_data"]["MAQ_COD"], session["ss_data"]["TAG"], msg,)}\n"
+						f"{response}\n"
 						"1 - Para Salvar\n0 - Para cancelar e voltar ao menu\nV - Para voltar ao ponto anterior\n\nEscolha uma opção"
 					)
 				session["i_servico"] = 4
@@ -174,8 +175,9 @@ def responder_mensagem():
 					resp.message(f"Valor inválido\n\nInforme novamente se a Ordem de serviço afeta a produção\n1 - Sim\n2 - Não")
 			elif session["i_servico"] == 4:
 				session["os_data"]["OS_DESCR"] = msg
+				response = validar_ss(session["os_data"]["MAQ_COD"], session["os_data"]["TAG"], msg,).replace("Solicitação", "Ordem").replace("solicitação", "ordem")
 				resp.message(
-					f"{validar_ss(session["os_data"]["MAQ_COD"], session["os_data"]["TAG"], msg,).replace("Solicitação", "Ordem").replace("solicitação", "ordem")}\n"
+					f"{response}\n"
 					"1 - Para Salvar\n0 - Para cancelar e voltar ao menu\nV - Para voltar ao ponto anterior\n\nEscolha uma opção"
 				)
 				session["i_servico"] = 5
