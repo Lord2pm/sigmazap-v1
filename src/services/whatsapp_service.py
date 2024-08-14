@@ -11,7 +11,7 @@ def fazer_login(email, senha, db_id):
         response_data = response.json()
         return response_data.get("success")
     except Exception as e:
-        print(e)
+        print(e.with_traceback())
         return False
 
 
@@ -62,15 +62,19 @@ Informe novamente um código para consultar outra Ordem de serviço
 
 def criar_ss(email: str, senha: str, ss_desc, maq_cod, tag_cod, db_id: int):
     url = f"http://demo.universosigma.com.br/api/ss/forms/cadastro?dbid={db_id}"
-    data = {"SS_DESCRIC": ss_desc, "MAQ_CODIGO": maq_cod, "TAG_CODIGO": tag_cod}
+    data = {
+        "SS_DESCRIC": ss_desc,
+        "MAQ_CODIGO": maq_cod,
+        "TAG_CODIGO": tag_cod,
+        "DEP_CODIGO": 1,
+    }
     response = requests.post(url, auth=HTTPBasicAuth(email, senha), data=data)
-    data = response.json()
 
     try:
+        data = response.json()
         if data["success"]:
             return f"Solicitação de serviço com Código {data['id']} salva com sucesso"
     except Exception as e:
-        print(e)
         return False
 
 
@@ -145,17 +149,3 @@ def buscar_todos_bancos_de_dados(subdominio: str) -> dict:
         return db_dict
     except:
         ...
-
-
-if __name__ == "__main__":
-    db_dict = buscar_todos_bancos_de_dados("demo.universosigma.com.br")
-    if len(db_dict.keys()) > 1:
-        string = ""
-        for db_id, db_label in db_dict.items():
-            string += f"ID: {db_id} => {db_label}\n"
-        print(f"{string}\n\nEscolha o banco de dados pelo seu ID. Exemplo: 30")
-    elif len(db_dict.keys()) == 1:
-        for db_id, db_label in db_dict.items():
-            print(
-                f"ID: {db_id} => {db_label}\n\nFoi encontrado apenas um banco de dados.\n\nSim -> Para continuar"
-            )

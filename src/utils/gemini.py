@@ -41,3 +41,10 @@ def validar_ss(cod_maquina, tag, ss_desc):
         f"Resuma em poucas palavras uma solicitação de serviço com os seguintes dados: Código ou descrição da máquina: {cod_maquina}, Códio ou descrição da TAG: {tag}, Descrição da silicitação de serviço: {ss_desc}",
         "",
     )
+
+
+def validar_descricao_ss(ss_description: str, ss_data: dict):
+    return create_prompt(
+        f"Diga unica e exclusivamente não caso essa descrição {ss_description} não seja muito coerente com os dados da solicitação de serviço: {ss_data}",
+        "",
+    )
